@@ -43,6 +43,14 @@
     .home{
         display: flex;
         background: url(Image/bgImage.jpg) no-repeat;
-        height: 928px;
-        width: 1900px;
+        height: 100vh;
+        min-height: 500px;
+        color: beige;
+        background-size: cover;
+        background-attachment: fixed;
+        font-family: 'Ubantu', sans-serif;
+    }
+    .home .max-width{
+        width: 100%;
+        display: flex;
     }
