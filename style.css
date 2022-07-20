@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+.max-width{
+    max-width: 1300px;
+    padding: 0 80px;
+    margin: auto;
+}
+
+.navbar{
+    position: fixed;
+    width: 100%;
+    padding: 15px 0;
+    background: yellow;
+    font-family: 'Ubantu', sans-serif;
+}
+.navbar .menu li{
+    list-style: none;
+    display: inline;
+}
+.navbar .logo a{
+    color: blueviolet;
+    font-size: 35px;
+    font-weight: 600;
+}
+.navbar .menu li a{
+    color: black;
+    font-size: 18px;
+    font-weight: 550;
+    margin-left: 25px;
+    }
+
+    .navbar .max-width{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .home{
+        display: flex;
+        background: url(Image/bgImage.jpg) no-repeat;
+        height: 928px;
+        width: 1900px;
+    }
