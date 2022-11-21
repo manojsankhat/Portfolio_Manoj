@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Food Mart</string>
+    <string name="dummy_long">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.</string>
+    <string name="dummy_short">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.</string>
+
+</resources>

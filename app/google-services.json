@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "576737604676",
+    "project_id": "food-mart-e1e32",
+    "storage_bucket": "food-mart-e1e32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576737604676:android:e03820bd77c4f66c66f811",
+        "android_client_info": {
+          "package_name": "com.example.testapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576737604676-fgiqg4rn8nulmtvs2qrok92gamm72dn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4b74PyI1yD_uxIIc38Fgo2W4OT08Qt4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576737604676-fgiqg4rn8nulmtvs2qrok92gamm72dn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/TB"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:title="Vendor Dashboard"
+        app:titleTextColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/IMG_VENDOR"
+        android:layout_width="128dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/TV_SUB_HEAD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/TV_SUB_HEAD"
+        app:layout_constraintTop_toTopOf="@id/TV_VENDOR_NAME"
+        app:layout_constraintVertical_bias="0"
+        app:srcCompat="@drawable/material_vendor" />
+
+    <TextView
+        android:id="@+id/TV_VENDOR_NAME"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/baloo"
+        android:text="Hello Nisarg"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TB"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <TextView
+        android:id="@+id/TV_SUB_HEAD"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:justificationMode="inter_word"
+        android:text="@string/dummy_short"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/IMG_VENDOR"
+        app:layout_constraintStart_toStartOf="@id/TV_VENDOR_NAME"
+        app:layout_constraintTop_toBottomOf="@id/TV_VENDOR_NAME"
+        app:layout_constraintVertical_bias="0" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TV_SUB_HEAD">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/CARD_FOOD_ITEMS"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="128dp"
+                        app:srcCompat="@drawable/material_food_items" />
+
+                    <TextView
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Food Items"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:gravity="center"
+                        android:textColor="@color/purple_500" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="128dp"
+                        app:srcCompat="@drawable/material_orders" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Orders"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:gravity="center"
+                        android:textColor="@color/purple_500" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="128dp"
+                        app:srcCompat="@drawable/material_wallet" />
+
+                    <TextView
+                        android:padding="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Revenue"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:gravity="center"
+                        android:textColor="@color/purple_500" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="128dp"
+                        app:srcCompat="@drawable/material_store_profile" />
+
+                    <TextView
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Store Details"
+                        android:textColor="@color/purple_500" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </TableRow>
+
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
