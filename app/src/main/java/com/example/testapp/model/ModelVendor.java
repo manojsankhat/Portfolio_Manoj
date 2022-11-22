@@ -1,10 +1,25 @@
 package com.example.testapp.model;
 
+import java.util.ArrayList;
+
 public class ModelVendor {
 
     private String name;
     private String phone;
     private String email;
+    private String password;
+    private String stallLocation;
+    private String stallImageUrl;
+    private ArrayList<String> foodListId = new ArrayList<>();
+    public ArrayList<String> getFoodListId() {
+        return foodListId;
+    }
+
+    public void setFoodListId(ArrayList<String> foodListId) {
+        this.foodListId = foodListId;
+    }
+
+
 
     public ModelVendor(String name, String phone, String email, String password) {
         this.name = name;
@@ -12,11 +27,13 @@ public class ModelVendor {
         this.email = email;
         this.password = password;
     }
-
-    private String password;
-    private String stallLocation;
-    private String stallImageUrl;
-
+    public ModelVendor(String name, String phone, String email, String password, ArrayList<String> foodListId) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.foodListId = foodListId;
+    }
     public ModelVendor() {
     }
 

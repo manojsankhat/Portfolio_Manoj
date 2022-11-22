@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,13 +26,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testapp.FoodMartApp;
 import com.example.testapp.R;
 import com.example.testapp.model.ModelFoodItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ActivityVendorFoodItems extends AppCompatActivity {
 
@@ -40,7 +50,12 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
     private RecyclerView rcvFoodItems;
     private FoodMartApp foodMartApp;
     private ImageView imgFood;
+    private Uri imgPath;
     private ArrayList<ModelFoodItem> arrayListFoodItems;
+    private TextInputLayout tilFoodName, tilFoodPrice, tilFoodDesc;
+    private Button btn_create_food_item;
+    private StorageReference storageReference;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +64,79 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
 
     }
 
+    //onPostCreate Method for initialize the objects
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        btn_create_food_item = findViewById(R.id.BTN_CREATE_FOOD_ITEM);
+        foodMartApp = (FoodMartApp) getApplication();
+        imgFood = findViewById(R.id.IMG_FOOD);
+
+        tilFoodName=findViewById(R.id.TIL_FOOD_NAME);
+        tilFoodPrice=findViewById(R.id.TIL_FOOD_PRICE);
+        tilFoodDesc=findViewById(R.id.TIL_FOOD_DESC);;
+
+        arrayListFoodItems = new ArrayList<>();
+        rcvFoodItems = findViewById(R.id.RCV_FOOD_ITEMS);
+
+        /**
+         * Adding a items in vendor table on button click (create food item)
+         */
+        btn_create_food_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadData();
+
+            }
+        });
+
+
+        storageReference = foodMartApp.getFirebaseStorage().getReference("ImageData/");
+
+        imgFood.setOnClickListener(view -> {
+
+//            if (checkAndRequestPermissions(ActivityVendorFoodItems.this)) {
+//                chooseImage(ActivityVendorFoodItems.this);
+//            }
+
+            Intent intentImgPicker = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            intentImgPicker.setType("image/*");
+            intentImgPicker.putExtra("return-data", true);
+            startActivityForResult(intentImgPicker, 12);
+
+        });
+
+        findViewById(R.id.BTN_ADD).setOnClickListener(view -> {
+            BottomSheetBehavior.from(findViewById(R.id.BTMSHEET)).setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+/*
+        foodMartApp.getDbRefFoodItems().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot foodItem : snapshot.getChildren()) {
+                    arrayListFoodItems.add(foodItem.getValue(ModelFoodItem.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
+        });
+*/
+
+    }
+
+    // we will choose the items from the device
     private void chooseImage(Context context) {
 
         final CharSequence[] optionsMenu = {
@@ -118,90 +206,104 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
 
     //Handle Permission
 
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        foodMartApp = (FoodMartApp) getApplication();
-        imgFood = findViewById(R.id.IMG_FOOD);
-        arrayListFoodItems = new ArrayList<>();
-        rcvFoodItems = findViewById(R.id.RCV_FOOD_ITEMS);
-
-
-        imgFood.setOnClickListener(view -> {
-
-            if (checkAndRequestPermissions(ActivityVendorFoodItems.this)) {
-                chooseImage(ActivityVendorFoodItems.this);
-            }
-//            Intent intentImgPicker=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-//            intentImgPicker.setType("image/*");
-//            intentImgPicker.putExtra("return-data", true);
-//            startActivityForResult(intentImgPicker,101);
-
-
-        });
-
-        findViewById(R.id.BTN_ADD).setOnClickListener(view -> {
-            BottomSheetBehavior.from(findViewById(R.id.BTMSHEET)).setState(BottomSheetBehavior.STATE_EXPANDED);
-        });
-
-
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED) {
-            switch (requestCode) {
-                case 0:
-                    if (resultCode == RESULT_OK && data != null) {
-                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-                        imgFood.setImageBitmap(selectedImage);
-                    }
-                    break;
-                case 1:
-                    if (resultCode == RESULT_OK && data != null) {
-                        Uri selectedImage = data.getData();
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                        if (selectedImage != null) {
-                            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                            if (cursor != null) {
-                                cursor.moveToFirst();
-                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                String picturePath = cursor.getString(columnIndex);
-                                imgFood.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                                cursor.close();
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
+        imgPath = data.getData();
+        imgFood.setImageURI(imgPath);
+
+//
+//        if (resultCode != RESULT_CANCELED) {
+//            switch (requestCode) {
+//                case 0:
+//                    if (resultCode == RESULT_OK && data != null) {
+//                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+//                        imgFood.setImageBitmap(selectedImage);
+//                    }
+//                    break;
+//                case 1:
+//                    if (resultCode == RESULT_OK && data != null) {
+//
+//
+//
+//
+////                        Uri selectedImage = data.getData();
+////                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+////                        if (selectedImage != null) {
+////                            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+////                            if (cursor != null) {
+////                                cursor.moveToFirst();
+////                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+////                                String picturePath = cursor.getString(columnIndex);
+////                                imgFood.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+////                                cursor.close();
+////                            }
+////                        }
+//                    }
+//                    break;
+//            }
+//        }
         //  Uri imgPath=data.getData();
         //  imgFood.setImageURI(imgPath);
     }
 
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-        foodMartApp.getDbRefFoodItems().addValueEventListener(new ValueEventListener() {
+    private void uploadData() {
+        Log.i("--->dataaoo:: ", " called "  );
+        //UUID.randomUUID();
+        String Image_id = UUID.randomUUID().toString() + "_" + System.currentTimeMillis();
+        StorageReference imageRef = storageReference.child(Image_id);
+        imageRef.putFile(imgPath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot foodItem : snapshot.getChildren()) {
-                    arrayListFoodItems.add( foodItem.getValue(ModelFoodItem.class));
-                }
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Log.i("--->data_0:: ", " "+task );
+                        ModelFoodItem modelFoodItem = new ModelFoodItem(tilFoodName.getEditText().getText().toString(), tilFoodPrice.getEditText().getText().toString(), tilFoodDesc.getEditText().getText().toString(), task.getResult().toString());
+                        foodMartApp.getDbFoodMartFoodItems().push().addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String key = snapshot.getKey();
+                                Log.i("--->data_1:: ", " " + key);
+
+                                foodMartApp.getDbFoodMartFoodItems().child(key).setValue(modelFoodItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Log.i("--->dataaoo:: ", " " + task.isSuccessful());
+                                        //foodMartApp.getFirebaseAuth().getUid()
+
+                                        foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).child("food-items-id").push().setValue(key);
+
+//                                        foodMartApp.getDbRefVendor().updateChildren();
+
+
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.i("--->dataaL:: ", " " + error);
+                            }
+                        });
+
+
+                    }
+                });
+
+                Toast.makeText(foodMartApp, "Successfull", Toast.LENGTH_SHORT).show();
+
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error);
+            public void onFailure(@NonNull Exception e) {
+                Log.i("--->dataaL ", " " + e);
             }
         });
-
     }
+
+
 }

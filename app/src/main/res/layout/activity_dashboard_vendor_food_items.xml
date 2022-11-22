@@ -98,9 +98,10 @@
             app:layout_constraintVertical_bias="0"
             app:startIconDrawable="@drawable/vector_food">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Coffe"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -120,9 +121,10 @@
             app:layout_constraintVertical_bias="0"
             app:startIconDrawable="@drawable/vector_description">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Food Desc"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,9 +144,10 @@
             app:layout_constraintVertical_bias="0"
             app:startIconDrawable="@drawable/vector_price">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="500"
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>

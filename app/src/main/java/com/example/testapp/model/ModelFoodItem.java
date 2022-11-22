@@ -5,11 +5,13 @@ public class ModelFoodItem {
     private String name;
     private String price;
     private String imageURL;
+    private String foodDescription;
 
-    public ModelFoodItem(String name, String price, String imageURL) {
+    public ModelFoodItem(String name, String price, String imageURL,String foodDescription) {
         this.name = name;
         this.price = price;
         this.imageURL = imageURL;
+        this.foodDescription=foodDescription;
     }
 
     public ModelFoodItem() {
@@ -39,4 +41,11 @@ public class ModelFoodItem {
         this.imageURL = imageURL;
     }
 
+    public String getFoodDescription() {
+        return foodDescription;
+    }
+
+    public void setFoodDescription(String foodDescription) {
+        this.foodDescription = foodDescription;
+    }
 }

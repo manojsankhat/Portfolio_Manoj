@@ -7,6 +7,8 @@ import com.example.testapp.model.ModelVendor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class FoodMartApp extends Application {
@@ -15,12 +17,38 @@ public class FoodMartApp extends Application {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference dbRefCustomer;
     private DatabaseReference dbRefVendor;
+    private DatabaseReference dbFoodMartFoodItems;
+    private FirebaseStorage firebaseStorage;
+    private DatabaseReference dbRefFoodItems;
+
+
+    public FirebaseStorage getFirebaseStorage() {
+        return firebaseStorage;
+    }
+
+    public void setFirebaseStorage(FirebaseStorage firebaseStorage) {
+        this.firebaseStorage = firebaseStorage;
+    }
+
+
+    private StorageReference storageReferenceFoodItems;
+
+
+    // Getter and Setter for StorageReference:
+    public StorageReference getStorageReferenceFoodItems() {
+        return storageReferenceFoodItems;
+    }
+
+    public void setStorageReferenceFoodItems(StorageReference storageReferenceFoodItems) {
+        this.storageReferenceFoodItems = storageReferenceFoodItems;
+    }
+
 
     public DatabaseReference getDbRefFoodItems() {
         return dbRefFoodItems;
     }
 
-    private DatabaseReference dbRefFoodItems;
+
 
     private ModelCustomer foodMartCustomer;
     private ModelVendor foodMartVendor;
@@ -39,6 +67,11 @@ public class FoodMartApp extends Application {
 
     public void setFoodMartVendor(ModelVendor foodMartVendor) {
         this.foodMartVendor = foodMartVendor;
+    }
+
+
+    public DatabaseReference getDbFoodMartFoodItems() {
+        return dbFoodMartFoodItems;
     }
 
     public DatabaseReference getDbRefVendor() {
@@ -63,8 +96,13 @@ public class FoodMartApp extends Application {
         dbRefCustomer = firebaseDatabase.getReference("users").child("customer");
         dbRefVendor = firebaseDatabase.getReference("users").child("vendor");
         dbRefFoodItems=firebaseDatabase.getReference("food_items");
+        firebaseStorage = FirebaseStorage.getInstance();
+        dbFoodMartFoodItems=firebaseDatabase.getReference("food_list");
 
     }
+
+
+
 
 
 }
