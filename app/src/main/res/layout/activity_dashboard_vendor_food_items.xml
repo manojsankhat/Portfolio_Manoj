@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RCV_FOOD_ITEMS"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/BTN_ADD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="1"
+        android:layout_margin="16dp"
+        android:src="@drawable/vector_add"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:elevation="8dp"
+        android:background="@color/white"
+        android:id="@+id/BTMSHEET"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        app:behavior_peekHeight="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TV_HEAD"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="Create New Food Item"
+            android:background="@color/purple_500"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <TextView
+            android:id="@+id/TV_SUB_HEAD"
+            app:layout_constraintBottom_toBottomOf="@id/IMG_FOOD"
+            app:layout_constraintEnd_toStartOf="@id/IMG_FOOD"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/IMG_FOOD"
+            android:text="@string/dummy_long"
+            android:layout_width="0dp"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            app:srcCompat="@drawable/material_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TV_HEAD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            android:id="@+id/IMG_FOOD"
+            android:layout_margin="16dp"
+            app:layout_constraintHorizontal_bias="1"
+            android:layout_width="128dp"
+            android:layout_height="128dp"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/TIL_FOOD_NAME"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Food Item Name"
+            app:counterMaxLength="16"
+            app:counterEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/IMG_FOOD"
+            app:layout_constraintStart_toStartOf="@id/TV_SUB_HEAD"
+            app:layout_constraintTop_toBottomOf="@id/IMG_FOOD"
+            app:layout_constraintVertical_bias="0"
+            app:startIconDrawable="@drawable/vector_food">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/TIL_FOOD_DESC"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Food Item Description"
+            app:counterMaxLength="16"
+            app:counterEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/IMG_FOOD"
+            app:layout_constraintStart_toStartOf="@id/TV_SUB_HEAD"
+            app:layout_constraintTop_toBottomOf="@id/TIL_FOOD_NAME"
+            app:layout_constraintVertical_bias="0"
+            app:startIconDrawable="@drawable/vector_description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/TIL_FOOD_PRICE"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Food Item Price"
+            app:counterMaxLength="3"
+            app:counterEnabled="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/IMG_FOOD"
+            app:layout_constraintStart_toStartOf="@id/TV_SUB_HEAD"
+            app:layout_constraintTop_toBottomOf="@id/TIL_FOOD_DESC"
+            app:layout_constraintVertical_bias="0"
+            app:startIconDrawable="@drawable/vector_price">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/BTN_MANAGE_FOOD_ITEM"
+            app:layout_constraintTop_toBottomOf="@id/TIL_FOOD_PRICE"
+            app:layout_constraintEnd_toEndOf="@id/IMG_FOOD"
+            app:layout_constraintStart_toStartOf="@id/TV_SUB_HEAD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            android:textColor="@color/purple_500"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="Create Food Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

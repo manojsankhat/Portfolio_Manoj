@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:padding="16dp"
+        android:text="Dialog Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/TITLE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/DIVIDER"
+        app:layout_constraintTop_toBottomOf="@id/TITLE"
+        android:background="#BDBDBD"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_margin="16dp"
+        android:id="@+id/IMG"
+        app:srcCompat="@drawable/material_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DIVIDER"
+        android:layout_width="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
+        android:layout_height="92dp"/>
+
+    <TextView
+        android:id="@+id/DESCRIPTION"
+        android:text="@string/dummy_long"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/IMG"
+        app:layout_constraintBottom_toBottomOf="@id/IMG"
+        app:layout_constraintTop_toTopOf="@id/IMG"
+        android:layout_marginEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <Button
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/purple_500"
+        app:layout_constraintTop_toBottomOf="@id/DESCRIPTION"
+        app:layout_constraintEnd_toEndOf="@id/DESCRIPTION"
+        android:id="@+id/BTN_POSITIVE"
+        android:text="Positive"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@color/purple_500"
+        android:text="Negative"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DESCRIPTION"
+        app:layout_constraintEnd_toStartOf="@id/BTN_POSITIVE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

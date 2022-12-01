@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/TV_HEAD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo"
+        android:text="Login To Continue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@id/IMG_LOGIN"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/IMG_LOGIN"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:srcCompat="@drawable/material_login" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:id="@+id/TV_LOGIN_INFO"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
+        android:text="@string/dummy_long"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/IMG_LOGIN"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/TV_HEAD"
+        app:layout_constraintTop_toBottomOf="@id/TV_HEAD"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:textColor="@color/black"
+        android:id="@+id/TV_HEAD_USER_TYPE"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintStart_toStartOf="@id/TV_LOGIN_INFO"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/TV_LOGIN_INFO"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="Select User Type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:id="@+id/RG_USER_TYPE"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintStart_toStartOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintTop_toBottomOf="@id/TV_HEAD_USER_TYPE"
+        app:layout_constraintVertical_bias="0.05">
+
+        <RadioButton
+            android:id="@+id/RB_CUSTOMER"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_user_type"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Customer"
+            android:textColor="@drawable/selector_user_text_type" />
+
+        <RadioButton
+            android:id="@+id/RB_VENDOR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_user_type"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Vendor"
+            android:textColor="@drawable/selector_user_text_type" />
+
+    </RadioGroup>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/TIL_EMAIL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Email Address"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintStart_toStartOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintTop_toBottomOf="@id/RG_USER_TYPE"
+        app:layout_constraintVertical_bias="0"
+        app:startIconDrawable="@drawable/vector_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="admin1@inst.com"
+            android:inputType="textEmailAddress" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TIL_PASSWORD"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Password"
+        app:counterEnabled="true"
+        app:counterMaxLength="16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintStart_toStartOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintTop_toBottomOf="@id/TIL_EMAIL"
+        app:layout_constraintVertical_bias="0"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/vector_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="admin1@inst.com"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/BTN_LOGIN"
+        android:text="Login"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintStart_toStartOf="@id/TV_LOGIN_INFO"
+        app:layout_constraintTop_toBottomOf="@id/TIL_PASSWORD"
+        app:layout_constraintVertical_bias="0" />
+
+    <Button
+        android:id="@+id/BTN_SIGNUP"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/purple_500"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="Create New Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
