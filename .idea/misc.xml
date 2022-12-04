@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Food Mart/app/src/main/res/layout/activity_dashboard_vendor.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidStudioProjects/Food Mart/app/src/main/res/layout/activity_dashboard_vendor_food_items.xml" value="0.35260416666666666" />
+        <entry key="..\:/AndroidStudioProjects/Food Mart/app/src/main/res/layout/activity_dashboard_vendor_food_items.xml" value="0.3412112259970458" />
         <entry key="..\:/AndroidStudioProjects/Food Mart/app/src/main/res/layout/fragment_login.xml" value="0.2390625" />
+        <entry key="..\:/AndroidStudioProjects/Food Mart/app/src/main/res/layout/row_food_items_vendor.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

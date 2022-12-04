@@ -21,11 +21,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testapp.FoodMartApp;
 import com.example.testapp.R;
+import com.example.testapp.adapters.AdapterFoodItemVendor;
 import com.example.testapp.model.ModelFoodItem;
+import com.example.testapp.model.ModelVendor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,21 +44,25 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ActivityVendorFoodItems extends AppCompatActivity {
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
+    private TextInputLayout tilFoodName, tilFoodPrice, tilFoodDesc;
     private RecyclerView rcvFoodItems;
     private FoodMartApp foodMartApp;
     private ImageView imgFood;
     private Uri imgPath;
-    private ArrayList<ModelFoodItem> arrayListFoodItems;
-    private TextInputLayout tilFoodName, tilFoodPrice, tilFoodDesc;
     private Button btn_create_food_item;
     private StorageReference storageReference;
+    private AdapterFoodItemVendor adapterVendor;
 
+    private ArrayList<ModelFoodItem> arrayListFoodItems;
+
+//    public ArrayList<ModelFoodItem> getArrayListFoodItems() {
+//        return arrayListFoodItems;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,16 +75,21 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
         btn_create_food_item = findViewById(R.id.BTN_CREATE_FOOD_ITEM);
         foodMartApp = (FoodMartApp) getApplication();
         imgFood = findViewById(R.id.IMG_FOOD);
-
-        tilFoodName=findViewById(R.id.TIL_FOOD_NAME);
-        tilFoodPrice=findViewById(R.id.TIL_FOOD_PRICE);
-        tilFoodDesc=findViewById(R.id.TIL_FOOD_DESC);;
+        tilFoodName = findViewById(R.id.TIL_FOOD_NAME);
+        tilFoodPrice = findViewById(R.id.TIL_FOOD_PRICE);
+        tilFoodDesc = findViewById(R.id.TIL_FOOD_DESC);
 
         arrayListFoodItems = new ArrayList<>();
         rcvFoodItems = findViewById(R.id.RCV_FOOD_ITEMS);
+
+        adapterVendor = new AdapterFoodItemVendor(arrayListFoodItems,this);
+        rcvFoodItems.setLayoutManager(new LinearLayoutManager(this));
+        rcvFoodItems.setAdapter(adapterVendor);
+
 
         /**
          * Adding a items in vendor table on button click (create food item)
@@ -110,12 +122,29 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
             BottomSheetBehavior.from(findViewById(R.id.BTMSHEET)).setState(BottomSheetBehavior.STATE_EXPANDED);
         });
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        foodMartApp.getDbFoodMartFoodItems().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arrayListFoodItems.clear();
+                for (DataSnapshot foodItem : snapshot.getChildren()) {
+                    arrayListFoodItems.add(foodItem.getValue(ModelFoodItem.class));
+
+                    adapterVendor.abcd();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println(error);
+            }
+        });
 
 
 /*
@@ -135,7 +164,6 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
 */
 
     }
-
     // we will choose the items from the device
     private void chooseImage(Context context) {
 
@@ -250,19 +278,79 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
     private void uploadData() {
         Log.i("--->dataaoo:: ", " called "  );
         //UUID.randomUUID();
-        String Image_id = UUID.randomUUID().toString() + "_" + System.currentTimeMillis();
+        String Image_id = UUID.randomUUID().toString()+ "_" + System.currentTimeMillis() ;
+
         StorageReference imageRef = storageReference.child(Image_id);
         imageRef.putFile(imgPath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
                 imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        Log.i("--->data_0:: ", " "+task );
+
+
                         ModelFoodItem modelFoodItem = new ModelFoodItem(tilFoodName.getEditText().getText().toString(), tilFoodPrice.getEditText().getText().toString(), tilFoodDesc.getEditText().getText().toString(), task.getResult().toString());
-                        foodMartApp.getDbFoodMartFoodItems().push().addValueEventListener(new ValueEventListener() {
+
+                        String foodItemKey = foodMartApp.getDbFoodMartFoodItems().push().getKey();
+                        Log.i("--->data_0::12 ", " foodItemKey: " + foodItemKey);
+                        foodMartApp.getDbFoodMartFoodItems().child(foodItemKey).setValue(modelFoodItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.i("--->data_successfull:: ", " " + task);
+                                    if (foodMartApp.getFoodMartVendor().getFoodListId() == null) {
+                                        foodMartApp.getFoodMartVendor().setFoodListId(new ArrayList<>());
+                                    }
+
+                                    //added food Item locally
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add(foodItemKey);//local
+                                    //temporary start
+
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHY8cb31fpdWDe9rMLW");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYBwtJplmYALb55Eyk");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYC6GTymZSDWGmQWcm");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYCWXGnSnAccrqMAwz");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYDyqYJt-QPhfNhe6J");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYE1e8_mP0oMsZ_z1t");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYFe_eOT0pcPyUTVd1");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYFn34d9c29KHrEDtR");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYIZ8gblwuw2c18Xj0");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYIk_e-K4xOh5S390Y");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYcrKKJcorMmC8FfqC");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYd7j9lNQ8jgMhJm_w");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYdIeL1W1UsT28AjY8");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYdOw2-l0js-GatZ-b");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYdulSSDAa4mgSXq1V");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYdzEFfSK-TQkfHgMA");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYe2y3D0zsBXfMm1G3");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYe8bl6A4ZiN2J5Tt2");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYeEMmXUCniFzSl2qI");
+                                    foodMartApp.getFoodMartVendor().getFoodListId().add("-NHYeK0SEw2ZklWvorU5");
+
+                                    //temporary end
+
+                                    ModelVendor user = foodMartApp.getFoodMartVendor();
+
+                                    HashMap<String, Object> result = new HashMap<>();
+                                    result.put(foodMartApp.getFirebaseAuth().getUid(), user);
+                                    foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).updateChildren(result);
+
+                                  /*  HashMap<String, Object> data = new HashMap<>();
+                                    data.put("food-items-ids",foodMartApp.getFoodMartVendor().getFoodListId());
+                                    foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).updateChildren(data);
+                                    foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).child("foodItemIds").setValue(foodMartApp.getFoodMartVendor().getFoodItemIds()).addOnCompleteListener(task11 -> {
+*/
+
+                                    //  foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).child("foodItemIds").updateChildren(foodMartApp.getFoodMartVendor().getFoodItemIds())
+
+
+                                } else {
+                                    Log.i("--->data_1234:: ", " " + task.getException());
+                                }
+                            }
+                        });
+
+      /*                  foodMartApp.getDbFoodMartFoodItems().push().addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String key = snapshot.getKey();
@@ -274,11 +362,9 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
                                         Log.i("--->dataaoo:: ", " " + task.isSuccessful());
                                         //foodMartApp.getFirebaseAuth().getUid()
 
-                                        foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).child("food-items-id").push().setValue(key);
+                                        foodMartApp.getDbRefVendor().child(foodMartApp.getFirebaseAuth().getUid()).child("food-items-id").setValue(key);
 
 //                                        foodMartApp.getDbRefVendor().updateChildren();
-
-
                                     }
                                 });
 
@@ -288,8 +374,7 @@ public class ActivityVendorFoodItems extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Log.i("--->dataaL:: ", " " + error);
                             }
-                        });
-
+                        });*/
 
                     }
                 });

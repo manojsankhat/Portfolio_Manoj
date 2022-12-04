@@ -11,6 +11,7 @@ public class ModelVendor {
     private String stallLocation;
     private String stallImageUrl;
     private ArrayList<String> foodListId = new ArrayList<>();
+
     public ArrayList<String> getFoodListId() {
         return foodListId;
     }
